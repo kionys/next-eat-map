@@ -5,26 +5,23 @@ interface IGlobalNavigation {
 }
 export default function Home() {
   return (
-    <div>
-      <h1>Map index page</h1>
-      <ul>
-        {[
-          { name: "맛집 목록", url: `/stores` },
-          { name: "맛집 생성", url: `/stores/add` },
-          { name: "맛집 상세 페이지", url: `/stores/1` },
-          { name: "맛집 수정 페이지", url: `/stores/1/edit` },
-          { name: "로그인 페이지", url: `/users/login` },
-          { name: "마이페이지", url: `/users/mypage` },
-          { name: "찜한 맛집", url: `/users/likes` },
-        ].map((item: IGlobalNavigation, i: number) => {
-          return (
-            <li key={i}>
-              <Link href={item.url}>{item.name}</Link>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+    <ul>
+      {[
+        { name: "맛집 목록", url: `/stores` },
+        { name: "맛집 생성", url: `/stores/add` },
+        { name: "맛집 상세 페이지", url: `/stores/1` },
+        { name: "맛집 수정 페이지", url: `/stores/1/edit` },
+        { name: "로그인 페이지", url: `/users/login` },
+        { name: "마이페이지", url: `/users/mypage` },
+        { name: "찜한 맛집", url: `/users/likes` },
+      ].map((item: IGlobalNavigation, i: number) => {
+        return (
+          <li key={i}>
+            <Link href={item.url}>{item.name}</Link>
+          </li>
+        );
+      })}
+    </ul>
   );
 }
 /**
