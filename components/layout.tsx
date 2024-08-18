@@ -1,5 +1,4 @@
-import { NavBar } from "./templates/nav-bar";
-
+import { NavBar } from "./templates/navbar";
 interface IPropsLayout {
   children: React.ReactNode;
 }
