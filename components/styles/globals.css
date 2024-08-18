@@ -55,7 +55,7 @@
     background: darkslateblue;
     color: white;
     height: 100dvh; */
-    @apply fixed w-full top-[52px] bg-blue-800 text-white h-screen;
+    @apply fixed w-full top-[52px] bg-blue-800 text-white h-screen z-50;
   }
   .navbar__list {
     /* display: none; */
