@@ -1,9 +1,24 @@
 import { KakaoMap } from "@components/templates/kakao-map";
+import { KakaoMarkers } from "@components/templates/kakao-markers";
+import { StoreBox } from "@components/templates/store-box";
+import stores from "@core/data/store_data.json";
+import { IStore } from "@core/interfaces/store";
+import { useState } from "react";
 
 export default function Home() {
+  const storeDatas = stores?.DATA;
+  const [map, setMap] = useState<kakao.maps.Map | null>(null); // 초기 값을 null로 설정하고 타입 지정
+  const [currentStore, setCurrentStore] = useState<IStore | null>(null);
+  console.log(currentStore);
   return (
     <>
-      <KakaoMap />
+      <KakaoMap setMap={setMap} />
+      <KakaoMarkers
+        map={map}
+        stores={storeDatas}
+        setCurrentStore={setCurrentStore}
+      />
+      <StoreBox store={currentStore} setStore={setCurrentStore} />
     </>
   );
 }
