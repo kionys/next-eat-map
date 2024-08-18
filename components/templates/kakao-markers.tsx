@@ -66,16 +66,7 @@ export const KakaoMarkers = ({
         //  선택한 가게 저장
         window.kakao.maps.event.addListener(marker, "click", () => {
           //   console.log(store);
-          setCurrentStore({
-            tel_no: store?.tel_no,
-            cob_code_nm: store?.cob_code_nm,
-            bizcnd_code_nm: store?.bizcnd_code_nm,
-            upso_nm: store?.upso_nm,
-            x_cnts: store?.x_cnts,
-            y_dnts: store?.y_dnts,
-            rdn_code_nm: store?.rdn_code_nm,
-            crtfc_gbn_nm: store?.crtfc_gbn_nm,
-          });
+          setCurrentStore(store);
         });
       });
     }

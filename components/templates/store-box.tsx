@@ -47,15 +47,15 @@ export const StoreBox = ({ store, setStore }: IPropsStoreBox) => {
             </div>
             <div className="mt-2 flex gap-2 items-center">
               <AiOutlinePhone />
-              {store?.tel_no ? store?.tel_no : "-"}
+              {store?.tel_no ? store?.tel_no : "번호 없음"}
             </div>
             <div className="mt-2 flex gap-2 items-center">
               <AiOutlineInfoCircle />
-              {store?.crtfc_gbn_nm ? store?.crtfc_gbn_nm : "-"}
+              {store?.crtfc_gbn_nm ? store?.crtfc_gbn_nm : "상호정보 없음"}
             </div>
             <div className="mt-2 flex gap-2 items-center">
               <AiOutlineCheck />
-              {store?.bizcnd_code_nm ? store?.bizcnd_code_nm : "-"}
+              {store?.bizcnd_code_nm ? store?.bizcnd_code_nm : "업태정보 없음"}
             </div>
           </div>
           <button

@@ -1,12 +1,11 @@
-import { KakaoMap } from "@components/templates/kakao-map";
-import { KakaoMarkers } from "@components/templates/kakao-markers";
-import { StoreBox } from "@components/templates/store-box";
-import stores from "@core/data/store_data.json";
 import { IStore } from "@core/interfaces/store";
+import { KakaoMap } from "components/templates/kakao-map";
+import { KakaoMarkers } from "components/templates/kakao-markers";
+import { StoreBox } from "components/templates/store-box";
+import { GetStaticProps } from "next";
 import { useState } from "react";
-
-export default function Home() {
-  const storeDatas = stores?.DATA;
+export default function Home({ stores }: { stores: IStore[] }) {
+  // const storeDatas = stores?.DATA;
   const [map, setMap] = useState<kakao.maps.Map | null>(null); // 초기 값을 null로 설정하고 타입 지정
   const [currentStore, setCurrentStore] = useState<IStore | null>(null);
   console.log(currentStore);
@@ -15,13 +14,27 @@ export default function Home() {
       <KakaoMap setMap={setMap} />
       <KakaoMarkers
         map={map}
-        stores={storeDatas}
+        stores={stores}
         setCurrentStore={setCurrentStore}
       />
       <StoreBox store={currentStore} setStore={setCurrentStore} />
     </>
   );
 }
+
+export const getStaticProps: GetStaticProps = async () => {
+  const stores = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stores`, {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  }).then(res => res.json());
+
+  return {
+    props: { stores },
+    revalidate: 60 * 60,
+  };
+};
 /**
  * Next.js Data Fetching
  *------------------------------
