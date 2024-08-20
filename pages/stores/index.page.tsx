@@ -17,8 +17,8 @@ const StoreListPage = ({ stores }: { stores: IStore[] }) => {
               <div className="flex gap-x-4">
                 <Image
                   src={
-                    store?.bizcnd_code_nm
-                      ? `/images/markers/${store?.bizcnd_code_nm}.png`
+                    store?.category
+                      ? `/images/markers/${store?.category}.png`
                       : "/images/markers/default.png"
                   }
                   width={48}
@@ -27,21 +27,21 @@ const StoreListPage = ({ stores }: { stores: IStore[] }) => {
                 />
                 <div className="">
                   <div className="text-sm font-semibold leading-6 text-gray-900">
-                    {store?.upso_nm}
+                    {store?.name}
                   </div>
                   <div className="mt-1 text-xs font-semibold truncate leading-5 text-gray-500">
-                    {store?.upso_nm}
+                    {store?.name}
                   </div>
                 </div>
               </div>
               <div className="hidden sm:flex sm:flex-col sm:items-end">
                 <div className="text-sm font-semibold leading-6 text-gray-900">
-                  {store?.rdn_code_nm}
+                  {store?.address}
                 </div>
                 <div className="mt-1 text-xs font-semibold truncate leading-5 text-gray-500">
-                  {store?.tel_no || "번호 없음"} |{" "}
-                  {store?.crtfc_gbn_nm || "상호정보 없음"} |{" "}
-                  {store?.bizcnd_code_nm || "업태정보 없음"}
+                  {store?.phone || "번호 없음"} |{" "}
+                  {store?.foodCertifyName || "상호정보 없음"} |{" "}
+                  {store?.category || "업태정보 없음"}
                 </div>
               </div>
             </li>

@@ -27,14 +27,14 @@ export const StoreBox = ({ store, setStore }: IPropsStoreBox) => {
                   height={40}
                   alt="아이콘 이미지"
                   src={
-                    store?.bizcnd_code_nm
-                      ? `/images/markers/${store?.bizcnd_code_nm}.png`
+                    store?.category
+                      ? `/images/markers/${store?.category}.png`
                       : "/images/markers/default.png"
                   }
                 />
                 <div>
-                  <div className="font-semibold">{store?.upso_nm}</div>
-                  <div className="text-sm">{store?.cob_code_nm}</div>
+                  <div className="font-semibold">{store?.name}</div>
+                  <div className="text-sm">{store?.storeType}</div>
                 </div>
               </div>
               <button type="button" onClick={() => setStore(null)}>
@@ -43,19 +43,19 @@ export const StoreBox = ({ store, setStore }: IPropsStoreBox) => {
             </div>
             <div className="mt-4 flex gap-2 items-center">
               <HiOutlineMapPin />
-              {store?.rdn_code_nm ? store?.rdn_code_nm : "-"}
+              {store?.address ? store?.address : "-"}
             </div>
             <div className="mt-2 flex gap-2 items-center">
               <AiOutlinePhone />
-              {store?.tel_no ? store?.tel_no : "번호 없음"}
+              {store?.phone ? store?.phone : "번호 없음"}
             </div>
             <div className="mt-2 flex gap-2 items-center">
               <AiOutlineInfoCircle />
-              {store?.crtfc_gbn_nm ? store?.crtfc_gbn_nm : "상호정보 없음"}
+              {store?.storeType ? store?.storeType : "상호정보 없음"}
             </div>
             <div className="mt-2 flex gap-2 items-center">
               <AiOutlineCheck />
-              {store?.bizcnd_code_nm ? store?.bizcnd_code_nm : "업태정보 없음"}
+              {store?.category ? store?.category : "업태정보 없음"}
             </div>
           </div>
           <button

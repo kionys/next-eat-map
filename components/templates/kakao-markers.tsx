@@ -16,8 +16,8 @@ export const KakaoMarkers = ({
       // 식당 데이터 마커 띄우기
       /** https://data.seoul.go.kr/dataList/OA-2741/S/1/datasetView.do */
       stores?.map(store => {
-        let imageSrc = store?.bizcnd_code_nm
-            ? `/images/markers/${store?.bizcnd_code_nm}.png`
+        let imageSrc = store?.category
+            ? `/images/markers/${store?.category}.png`
             : "/images/markers/default.png",
           imageSize = new window.kakao.maps.Size(40, 40),
           imageOption = { offset: new window.kakao.maps.Point(27, 69) };
@@ -30,8 +30,8 @@ export const KakaoMarkers = ({
 
         // 마커가 표시될 위치
         let markerPosition = new window.kakao.maps.LatLng(
-          store?.y_dnts,
-          store?.x_cnts,
+          store?.lat,
+          store?.lng,
         );
 
         // 마커를 생성
@@ -43,7 +43,7 @@ export const KakaoMarkers = ({
         marker.setMap(map);
 
         // 마커 커서가 오버되었을 때 마커 위에 표시할 인포윈도우 생성
-        let content = `<div class="infowindow">${store?.upso_nm}</div>`; // 인포윈도우에 표시될 내용
+        let content = `<div class="infowindow">${store?.name}</div>`; // 인포윈도우에 표시될 내용
 
         let customOverlay = new window.kakao.maps.CustomOverlay({
           position: markerPosition,
