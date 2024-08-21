@@ -9,6 +9,11 @@ import NaverProvider from "next-auth/providers/naver";
 const prisma = new PrismaClient();
 
 export const authOptions: NextAuthOptions = {
+  session: {
+    strategy: "jwt" as const, // jwt 기반의 session을 사용
+    maxAge: 60 * 60 * 24, // 24시간으로 설정
+    updateAge: 60 * 60 * 2, // session 업데이트 주기, 2시간으로 설정
+  },
   adapter: PrismaAdapter(prisma) as Adapter,
   providers: [
     KakaoProvider({
