@@ -7,7 +7,6 @@ import { BiMenu } from "react-icons/bi";
 export const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { data, status } = useSession();
-  console.log(data, status);
   return (
     <>
       <div className="navbar">
