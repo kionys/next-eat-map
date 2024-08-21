@@ -5,7 +5,7 @@ import { useIntersectionObserver } from "@core/hook/useIntersectionObserver";
 import { IStore } from "@core/interfaces/store";
 import axios from "axios";
 import Image from "next/image";
-import { Fragment, useCallback, useEffect, useRef } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { useInfiniteQuery } from "react-query";
 
 /**
@@ -18,11 +18,20 @@ const StoreListPage = () => {
   const pageRef = useIntersectionObserver(ref, {});
   const isPageEnd = !!pageRef?.isIntersecting;
 
+  const [q, setQ] = useState<string | null>(null);
+  const [district, setDistrict] = useState<string | null>(null);
+
+  const searchParams = {
+    q: q,
+    district: district,
+  };
+
   const fetchStores = async ({ pageParam = 1 }) => {
     const { data } = await axios("/api/stores?page=" + pageParam, {
       params: {
         limit: 10,
         page: pageParam,
+        ...searchParams,
       },
     });
     return data;
@@ -36,7 +45,7 @@ const StoreListPage = () => {
     hasNextPage,
     isError,
     isLoading,
-  } = useInfiniteQuery("stores", fetchStores, {
+  } = useInfiniteQuery(["stores", searchParams], fetchStores, {
     getNextPageParam: (lastPage: any) =>
       lastPage.data?.length > 0 ? lastPage.page + 1 : undefined,
   });
@@ -61,7 +70,7 @@ const StoreListPage = () => {
   return (
     <div className="px-4 md:max-w-4xl mx-auto py-8">
       {/* search filter */}
-      <SearchFilter />
+      <SearchFilter setQ={setQ} setDistrict={setDistrict} />
       <ul role="list" className="divide-y divide-gray-100">
         {!isLoading && !isError ? (
           stores?.pages?.map((page: any, i: number) => {

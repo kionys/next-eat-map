@@ -2,11 +2,18 @@ import { IStore, IStoreApiResponse } from "@core/interfaces/store";
 import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
+interface ResponseType {
+  page?: string;
+  limit?: string;
+  q?: string;
+  district?: string;
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<IStoreApiResponse | IStore[] | IStore>,
 ) {
-  const { page = "", id }: { page?: string; id?: string } = req.query;
+  const { page = "", limit = "", q, district }: ResponseType = req.query;
   const prisma = new PrismaClient();
 
   if (page) {
@@ -14,7 +21,11 @@ export default async function handler(
     const count = await prisma.store.count();
     const stores = await prisma.store.findMany({
       orderBy: { id: "asc" },
-      take: 10,
+      where: {
+        name: q ? { contains: q } : {},
+        address: district ? { contains: district } : {},
+      },
+      take: parseInt(limit),
       skip: skipPage * 10,
     });
 
