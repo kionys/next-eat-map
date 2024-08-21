@@ -1,5 +1,6 @@
 import { IStore } from "@core/interfaces/store";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { Dispatch, SetStateAction } from "react";
 import {
   AiOutlineCheck,
@@ -15,6 +16,7 @@ interface IPropsStoreBox {
 }
 
 export const StoreBox = ({ store, setStore }: IPropsStoreBox) => {
+  const router = useRouter();
   return (
     <div className="fixed transition ease-in-out delay-150 inset-x-0 mx-auto bottom-20 rounded-lg shadow-lg max-w-sm md:max-w-xl z-10 w-full bg-white">
       {store && (
@@ -60,7 +62,7 @@ export const StoreBox = ({ store, setStore }: IPropsStoreBox) => {
           </div>
           <button
             type="button"
-            onClick={() => window.alert("상세보기 작업중")}
+            onClick={() => router.push(`/stores/${store.id}`)}
             className="w-full bg-blue-700 hover:bg-blue-500 focus:bg-blue-500 py-3 text-white font-semibold rounded-b-lg"
           >
             상세보기

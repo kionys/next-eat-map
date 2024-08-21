@@ -60,14 +60,7 @@ const StoreListPage = () => {
   return (
     <div className="px-4 md:max-w-4xl mx-auto py-8">
       <ul role="list" className="divide-y divide-gray-100">
-        {isError && (
-          <div className="w-full h-screen mx-auto pt-[10%] text-red-500 text-center font-semibold">
-            다시 시도해주세요
-          </div>
-        )}
-        {isLoading ? (
-          <Loading />
-        ) : (
+        {!isLoading && !isError ? (
           stores?.pages?.map((page: any, i: number) => {
             return (
               <Fragment key={i}>
@@ -100,7 +93,7 @@ const StoreListPage = () => {
                         </div>
                         <div className="mt-1 text-xs font-semibold truncate leading-5 text-gray-500">
                           {store?.phone || "번호 없음"} |{" "}
-                          {store?.foodCertifyName || "상호정보 없음"} |{" "}
+                          {store?.foodCertifyName || "식품인증구분 없음"} |{" "}
                           {store?.category || "업태정보 없음"}
                         </div>
                       </div>
@@ -110,7 +103,13 @@ const StoreListPage = () => {
               </Fragment>
             );
           })
-        )}
+        ) : isLoading ? (
+          <Loading />
+        ) : isError ? (
+          <div className="w-full h-screen mx-auto pt-[10%] text-red-500 text-center font-semibold">
+            다시 시도해주세요
+          </div>
+        ) : null}
       </ul>
       {/* <button type="button" onClick={() => fetchNextPage()}>
         next page
