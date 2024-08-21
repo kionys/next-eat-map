@@ -1,5 +1,6 @@
 import { Loader } from "@components/elements/loader";
 import { Loading } from "@components/elements/loading";
+import { SearchFilter } from "@components/templates/search-filter";
 import { useIntersectionObserver } from "@core/hook/useIntersectionObserver";
 import { IStore } from "@core/interfaces/store";
 import axios from "axios";
@@ -59,6 +60,8 @@ const StoreListPage = () => {
 
   return (
     <div className="px-4 md:max-w-4xl mx-auto py-8">
+      {/* search filter */}
+      <SearchFilter />
       <ul role="list" className="divide-y divide-gray-100">
         {!isLoading && !isError ? (
           stores?.pages?.map((page: any, i: number) => {
