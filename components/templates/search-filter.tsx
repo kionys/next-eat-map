@@ -1,20 +1,18 @@
 import { DISTRICT_ARR } from "@core/data/store";
-import { Dispatch, SetStateAction } from "react";
+import { searchState } from "atom";
 import { AiOutlineSearch } from "react-icons/ai";
+import { useRecoilState } from "recoil";
 
-interface IPropsSearchFilter {
-  setQ: Dispatch<SetStateAction<string | null>>;
-  setDistrict: Dispatch<SetStateAction<string | null>>;
-}
+export const SearchFilter = () => {
+  const [search, setSearch] = useRecoilState(searchState);
 
-export const SearchFilter = ({ setQ, setDistrict }: IPropsSearchFilter) => {
-  const onChangeInput = (
+  const onChangeSearch = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const name = e.target.name;
     const value = e.target.value;
-    name === "q" && setQ(value);
-    name === "district" && setDistrict(value);
+    name === "q" && setSearch({ ...search, q: value });
+    name === "district" && setSearch({ ...search, district: value });
   };
 
   return (
@@ -26,14 +24,14 @@ export const SearchFilter = ({ setQ, setDistrict }: IPropsSearchFilter) => {
           name="q"
           className="block w-full p-3 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50 outline-none focus:border-blue-500 focus:border-2"
           placeholder="음식점 검색"
-          onChange={onChangeInput}
+          onChange={onChangeSearch}
         />
       </div>
       <select
         name="district"
         id="district"
         className="bg-gray-50 border border-gray-300 text-gray-800 text-sm md:max-w-[200px] rounded-lg focus:border-blue-500 block w-full p-3 outline-none pr-2"
-        onChange={onChangeInput}
+        onChange={onChangeSearch}
       >
         <option value="">지역 선택</option>
         {DISTRICT_ARR.map((item: string) => {

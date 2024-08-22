@@ -18,7 +18,12 @@ export interface IStoreApiResponse {
 }
 
 export interface ILocation {
-  lat: number;
-  lng: number;
+  lat?: string | null;
+  lng?: string | null;
   zoom: number;
+}
+
+export interface ISearch {
+  q?: string;
+  district?: string;
 }

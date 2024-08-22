@@ -1,8 +1,8 @@
-import { ILocation, IStore } from "@core/interfaces/store";
+import { ILocation, ISearch, IStore } from "@core/interfaces/store";
 import { atom } from "recoil";
 
-const DEFAULT_LAT = 37.497625203;
-const DEFAULT_LNG = 127.03088379;
+const DEFAULT_LAT = "37.497625203";
+const DEFAULT_LNG = "127.03088379";
 const DEFAULT_ZOOM = 5;
 
 export const mapState = atom({
@@ -23,4 +23,8 @@ export const locationState = atom<ILocation>({
     lng: DEFAULT_LNG,
     zoom: DEFAULT_ZOOM,
   },
+});
+export const searchState = atom<ISearch | null>({
+  key: "search",
+  default: null,
 });
