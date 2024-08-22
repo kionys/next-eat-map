@@ -1,13 +1,14 @@
 import { IStore } from "@core/interfaces/store";
-import { currentStoreState, mapState } from "atom";
+import { currentStoreState, locationState, mapState } from "atom";
 import { useCallback, useEffect } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 interface IPropsMarkers {
   stores: IStore[];
 }
 export const KakaoMarkers = ({ stores }: IPropsMarkers) => {
   const map = useRecoilValue(mapState);
+  const [location, setLocation] = useRecoilState(locationState);
   const setCurrentStore = useSetRecoilState(currentStoreState);
 
   const loadKakaoMarkers = useCallback(() => {
@@ -64,12 +65,17 @@ export const KakaoMarkers = ({ stores }: IPropsMarkers) => {
 
         //  선택한 가게 저장
         window.kakao.maps.event.addListener(marker, "click", () => {
-          //   console.log(store);
           setCurrentStore(store);
+          // 페이지 뒤로가기 시 기존 선택한 가게의 위도, 경도 측으로 포커스 상태 유지되도록 함
+          setLocation({
+            ...location,
+            lat: store.lat,
+            lng: store.lng,
+          });
         });
       });
     }
-  }, [map, setCurrentStore, stores]);
+  }, [map, stores]);
 
   useEffect(() => {
     loadKakaoMarkers();
