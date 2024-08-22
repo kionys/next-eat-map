@@ -4,6 +4,8 @@ import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { RecoilRoot } from "recoil";
 
 const queryClient = new QueryClient();
@@ -18,6 +20,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <SessionProvider session={session}>
           <Layout>
             <Component {...pageProps} />
+            <ToastContainer />
           </Layout>
           <ReactQueryDevtools />
         </SessionProvider>

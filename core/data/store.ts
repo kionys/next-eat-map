@@ -42,6 +42,7 @@ export const CATEGORY_ARR = [
   "카페",
   "탕류",
   "한식",
+  "default",
 ];
 
 export const FOOD_CERTIFY_ARR = [
@@ -51,6 +52,13 @@ export const FOOD_CERTIFY_ARR = [
   "식생활체험공간",
   "농부시장",
   "친환경유기농식품판매점",
+  "우리동네 모범정육점",
 ];
 
-export const STORE_TYPE_ARR = ["일반음식점", "휴게음식점", "제과점영업"];
+export const STORE_TYPE_ARR = [
+  "일반음식점",
+  "휴게음식점",
+  "제과점영업",
+  "식육판매업",
+  "식육즉석판매가공업",
+];
