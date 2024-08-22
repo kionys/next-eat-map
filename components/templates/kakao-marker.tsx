@@ -1,11 +1,13 @@
 import { IStore } from "@core/interfaces/store";
+import { mapState } from "atom";
 import { useCallback, useEffect } from "react";
+import { useRecoilValue } from "recoil";
 
 interface IPropsMarker {
-  map: any;
   store: IStore;
 }
-export const KakaoMarker = ({ map, store }: IPropsMarker) => {
+export const KakaoMarker = ({ store }: IPropsMarker) => {
+  const map = useRecoilValue(mapState);
   const loadKakaoMarker = useCallback(() => {
     if (map && store) {
       // 현재 선택한 식당 데이터 마커 하나만 띄우기

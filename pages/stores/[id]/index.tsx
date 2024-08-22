@@ -4,7 +4,6 @@ import { KakaoMarker } from "@components/templates/kakao-marker";
 import { IStore } from "@core/interfaces/store";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { useQuery } from "react-query";
 
 /**
@@ -13,7 +12,6 @@ import { useQuery } from "react-query";
  */
 const StoreDetailPage = () => {
   const router = useRouter();
-  const [map, setMap] = useState<kakao.maps.Map | null>(null);
   const { id } = router.query;
 
   const fetchStore = async () => {
@@ -105,13 +103,8 @@ const StoreDetailPage = () => {
       </div>
       {isSuccess && (
         <div className="overflow-hidden w-full mb-20 max-w-5xl mx-auto max-h-[900px]">
-          <KakaoMap
-            setMap={setMap}
-            lat={store?.lat}
-            lng={store?.lng}
-            zoom={1}
-          />
-          <KakaoMarker map={map} store={store} />
+          <KakaoMap lat={store?.lat} lng={store?.lng} zoom={1} />
+          <KakaoMarker store={store} />
         </div>
       )}
     </>

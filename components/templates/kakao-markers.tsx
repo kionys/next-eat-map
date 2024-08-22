@@ -1,16 +1,15 @@
 import { IStore } from "@core/interfaces/store";
-import { Dispatch, SetStateAction, useCallback, useEffect } from "react";
+import { currentStoreState, mapState } from "atom";
+import { useCallback, useEffect } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 interface IPropsMarkers {
-  map: any;
   stores: IStore[];
-  setCurrentStore: Dispatch<SetStateAction<IStore | null>>;
 }
-export const KakaoMarkers = ({
-  map,
-  stores,
-  setCurrentStore,
-}: IPropsMarkers) => {
+export const KakaoMarkers = ({ stores }: IPropsMarkers) => {
+  const map = useRecoilValue(mapState);
+  const setCurrentStore = useSetRecoilState(currentStoreState);
+
   const loadKakaoMarkers = useCallback(() => {
     if (map) {
       // 식당 데이터 마커 띄우기

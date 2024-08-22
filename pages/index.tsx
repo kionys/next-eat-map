@@ -4,21 +4,13 @@ import { KakaoMap } from "components/templates/kakao-map";
 import { KakaoMarkers } from "components/templates/kakao-markers";
 import { StoreBox } from "components/templates/store-box";
 import { GetStaticProps } from "next";
-import { useState } from "react";
 
 const Home = ({ stores }: { stores: IStore[] }) => {
-  const [map, setMap] = useState<kakao.maps.Map | null>(null); // 초기 값을 null로 설정하고 타입 지정
-  const [currentStore, setCurrentStore] = useState<IStore | null>(null);
-
   return (
     <>
-      <KakaoMap setMap={setMap} />
-      <KakaoMarkers
-        map={map}
-        stores={stores}
-        setCurrentStore={setCurrentStore}
-      />
-      <StoreBox store={currentStore} setStore={setCurrentStore} />
+      <KakaoMap />
+      <KakaoMarkers stores={stores} />
+      <StoreBox />
     </>
   );
 };
