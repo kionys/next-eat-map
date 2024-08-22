@@ -1,7 +1,7 @@
 import { IStore, IStoreApiResponse } from "@core/interfaces/store";
-import { PrismaClient } from "@prisma/client";
+// import { PrismaClient } from "@prisma/client";
+import prisma from "db";
 import { NextApiRequest, NextApiResponse } from "next";
-
 interface ResponseType {
   page?: string;
   limit?: string;
@@ -14,7 +14,7 @@ export default async function handler(
   res: NextApiResponse<IStoreApiResponse | IStore[] | IStore>,
 ) {
   const { page = "", limit = "", q, district }: ResponseType = req.query;
-  const prisma = new PrismaClient();
+  // const prisma = new PrismaClient();
 
   if (page) {
     const skipPage = parseInt(page) - 1;
