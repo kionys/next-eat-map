@@ -1,10 +1,13 @@
+import { SearchAddress } from "@components/templates/search-address";
 import {
   CATEGORY_ARR,
   FOOD_CERTIFY_ARR,
   STORE_TYPE_ARR,
 } from "@core/data/store";
+import { IStore } from "@core/interfaces/store";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 /**
@@ -14,25 +17,26 @@ import { toast } from "react-toastify";
  */
 const StoreNewPage = () => {
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
-  } = useForm();
+  } = useForm<IStore>();
 
   return (
     <form
       className="px-4 md:max-w-4xl mx-auto py-8"
       onSubmit={handleSubmit(async data => {
-        console.log(data);
         try {
           const result = await axios({
             method: "POST",
             url: `/api/stores`,
             data: data,
           });
-          console.log(result);
+
           if (result.status === 200) {
             toast.success("맛집을 등록했습니다.");
             router.replace(`/stores/${result?.data?.id}`);
@@ -60,13 +64,14 @@ const StoreNewPage = () => {
                 htmlFor="name"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                가게명
+                가게명 <span className="text-red-500">*</span>
               </label>
               <div className="mt-2">
                 <input
                   type="text"
                   {...register("name", { required: true })}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 outline-none px-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  placeholder="가게명을 입력해주세요"
                 />
                 {errors.name?.type === "required" && (
                   <div className="pt-2 text-xs text-red-600">
@@ -81,7 +86,7 @@ const StoreNewPage = () => {
                 htmlFor="category"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                카테고리
+                카테고리 <span className="text-red-500">*</span>
               </label>
               <div className="mt-2">
                 <select
@@ -110,12 +115,13 @@ const StoreNewPage = () => {
                 htmlFor="phone"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                연락처
+                연락처 <span className="text-red-500">*</span>
               </label>
               <div className="mt-2">
                 <input
                   {...register("phone", { required: true })}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 outline-none px-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  placeholder="연락처를 입력해주세요"
                 />
                 {errors.phone?.type === "required" && (
                   <div className="pt-2 text-xs text-red-600">
@@ -125,17 +131,19 @@ const StoreNewPage = () => {
               </div>
             </div>
 
-            <div className="col-span-full">
+            {/* <div className="col-span-full">
               <label
                 htmlFor="address"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                주소 (다음 주소 검색 API)
+                주소 (다음 주소 검색 API){" "}
+                <span className="text-red-500">*</span>
               </label>
               <div className="mt-2">
                 <input
                   {...register("address", { required: true })}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 outline-none px-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  placeholder="주소를 입력해주세요"
                 />
                 {errors.address?.type === "required" && (
                   <div className="pt-2 text-xs text-red-600">
@@ -143,14 +151,19 @@ const StoreNewPage = () => {
                   </div>
                 )}
               </div>
-            </div>
+            </div> */}
+            <SearchAddress
+              setValue={setValue}
+              register={register}
+              errors={errors}
+            />
 
             <div className="sm:col-span-2 sm:col-start-1">
               <label
                 htmlFor="city"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                식품인증구분
+                식품인증구분 <span className="text-red-500">*</span>
               </label>
               <div className="mt-2">
                 <select
@@ -179,14 +192,14 @@ const StoreNewPage = () => {
                 htmlFor="storeType"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                업종구분
+                업종구분 <span className="text-red-500">*</span>
               </label>
               <div className="mt-2">
                 <select
                   {...register("storeType", { required: true })}
                   className="block w-full rounded-md border-0 h-[36px] py-1.5 text-gray-900 shadow-sm ring-1 outline-none px-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 >
-                  <option value={""}>업종 선택</option>
+                  <option value={""}>업종구분 선택</option>
                   {STORE_TYPE_ARR?.map((storeType, i) => {
                     return (
                       <option key={i} value={storeType}>
