@@ -3,7 +3,7 @@ import axios from "axios";
 import { KakaoMap } from "components/templates/kakao-map";
 import { KakaoMarkers } from "components/templates/kakao-markers";
 import { StoreBox } from "components/templates/store-box";
-import { GetStaticProps } from "next";
+import { GetServerSideProps } from "next";
 
 const Home = ({ stores }: { stores: IStore[] }) => {
   return (
@@ -26,14 +26,13 @@ export default Home;
 //   };
 // };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/stores`;
 
   try {
     const response = await axios.get(url);
     return {
       props: { stores: response.data },
-      revalidate: 60 * 60,
     };
   } catch (error) {
     console.error("Error fetching data:", error);
