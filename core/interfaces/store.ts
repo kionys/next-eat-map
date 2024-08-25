@@ -8,8 +8,13 @@ export interface IStore {
   lat?: string | null;
   address?: string | null;
   foodCertifyName?: string | null;
+  likes?: ILike[];
 }
-
+export interface ILike {
+  id: number;
+  storeId: number;
+  userId: number;
+}
 export interface IStoreApiResponse {
   data: IStore[];
   totalPage?: number;

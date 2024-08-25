@@ -16,14 +16,31 @@ const Home = ({ stores }: { stores: IStore[] }) => {
 };
 export default Home;
 
+// export const getStaticProps: GetStaticProps = async () => {
+//   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/stores`;
+//   const stores = await axios({ method: "GET", url: url });
+
+//   return {
+//     props: { stores: stores.data },
+//     revalidate: 60 * 60,
+//   };
+// };
+
 export const getStaticProps: GetStaticProps = async () => {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/stores`;
-  const stores = await axios({ method: "GET", url: url });
 
-  return {
-    props: { stores: stores.data },
-    revalidate: 60 * 60,
-  };
+  try {
+    const response = await axios.get(url);
+    return {
+      props: { stores: response.data },
+      revalidate: 60 * 60,
+    };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return {
+      props: { stores: [] },
+    };
+  }
 };
 /**
  * Next.js Data Fetching

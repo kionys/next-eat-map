@@ -1,6 +1,7 @@
 import { Loader } from "@components/elements/loader";
 import { KakaoMap } from "@components/templates/kakao-map";
 import { KakaoMarker } from "@components/templates/kakao-marker";
+import { Like } from "@components/templates/like";
 import { IStore } from "@core/interfaces/store";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -67,6 +68,7 @@ const StoreDetailPage = () => {
           </div>
           {status === "authenticated" && store && (
             <div className="flex items-center gap-4 px-4 py-3">
+              {<Like storeId={store.id} />}
               <Link
                 className="underline hover:text-gray-400 text-sm"
                 href={`/stores/${store?.id}/edit`}

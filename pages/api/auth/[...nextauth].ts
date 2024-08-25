@@ -34,5 +34,20 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/users/login", // signIn 함수를 실행하면 /users/login로 리다이렉트 시킨다.
   },
+  callbacks: {
+    session: ({ session, token }) => ({
+      ...session,
+      user: {
+        ...session.user,
+        id: token.sub,
+      },
+    }),
+    jwt: async ({ user, token }) => {
+      if (user) {
+        token.sub = user.id;
+      }
+      return token;
+    },
+  },
 };
 export default NextAuth(authOptions);
