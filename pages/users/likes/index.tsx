@@ -31,7 +31,13 @@ const LikesPage = () => {
   return (
     <div className="px-4 md:max-w-4xl mx-auto py-8">
       <h3 className="text-lg font-semibold">찜한 맛집</h3>
-      <div className="mt-1 text-gray-500 text-sm">찜한 가게 리스트입니다.</div>
+      {likes?.totalPage && likes?.totalPage > 0 ? (
+        <div className="mt-1 text-gray-500 text-sm">
+          찜한 가게 리스트입니다.
+        </div>
+      ) : (
+        <div className="mt-1 text-gray-500 text-sm">찜한 가게가 없습니다.</div>
+      )}
       <ul role="list" className="divide-y divide-gray-100 mt-10">
         {!isLoading && !isError ? (
           likes?.data?.map((like: ILike, i: number) => {
@@ -45,13 +51,13 @@ const LikesPage = () => {
           </div>
         ) : null}
       </ul>
-      {likes?.totalPage && likes?.totalPage > 0 && (
+      {likes?.totalPage && likes?.totalPage > 0 ? (
         <Pagination
           pathname="/users/likes"
           total={likes?.totalPage}
           page={page}
         />
-      )}
+      ) : null}
     </div>
   );
 };
