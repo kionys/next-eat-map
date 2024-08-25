@@ -42,6 +42,13 @@ export const NavBar = () => {
           >
             찜한 가게
           </div>
+          <div
+            id="/users/mypage"
+            className="navbar__list--item"
+            onClick={onClickLink}
+          >
+            마이페이지
+          </div>
 
           {status === "authenticated" ? (
             <button type="button" onClick={() => signOut()}>
@@ -71,28 +78,32 @@ export const NavBar = () => {
           <div className="navbar__list--mobile">
             <div
               id="/stores"
-              className="navbar__list--item"
+              className="navbar__list--item--mobile"
               onClick={onClickLink}
             >
               맛집 목록
             </div>
             <div
               id="/stores/new"
-              className="navbar__list--item"
+              className="navbar__list--item--mobile"
               onClick={onClickLink}
             >
               맛집 등록
             </div>
             <div
               id="/users/likes"
-              className="navbar__list--item"
+              className="navbar__list--item--mobile"
               onClick={onClickLink}
             >
               찜한 가게
             </div>
-            {/* <div id="/api/auth/signin" className="navbar__list--item">
-              로그인
-            </div> */}
+            <div
+              id="/users/mypage"
+              className="navbar__list--item--mobile"
+              onClick={onClickLink}
+            >
+              마이페이지
+            </div>
             {status === "authenticated" ? (
               <button type="button" onClick={() => signOut()}>
                 로그아웃
@@ -100,7 +111,7 @@ export const NavBar = () => {
             ) : (
               <div
                 id="/api/auth/signin"
-                className="navbar__list--item"
+                className="navbar__list--item--mobile"
                 onClick={onClickLink}
               >
                 로그인
