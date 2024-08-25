@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
+import { toast } from "react-toastify";
 
 /**
  * 맛집 상세 페이지
@@ -32,6 +33,26 @@ const StoreDetailPage = () => {
     refetchOnWindowFocus: false, // window 창 focus 될 때마다 refetch 되는 것을 막는다.(기본값은 true)
   });
 
+  // 맛집 삭제
+  const onClickDeleteStore = async () => {
+    const confirm = window.confirm("해당 가게를 삭제하시겠습니까?");
+    if (confirm && store) {
+      try {
+        const result = await axios({
+          method: "DELETE",
+          url: `/api/stores?id=${store.id}`,
+        });
+        if (result.status === 200) {
+          toast.success("가게를 삭제했습니다.");
+          router.replace("/");
+        } else {
+          toast.error("다시 시도해주세요.");
+        }
+      } catch (e) {
+        toast.error("다시 시도해주세요.");
+      }
+    }
+  };
   return !isFetching && !isError ? (
     <>
       <div className="max-w-5xl mx-auto px-4 py-8">
@@ -54,6 +75,7 @@ const StoreDetailPage = () => {
               </Link>
               <button
                 type="button"
+                onClick={onClickDeleteStore}
                 className="underline hover:text-gray-400 text-sm"
               >
                 삭제

@@ -8,13 +8,14 @@ interface ResponseType {
   limit?: string;
   q?: string;
   district?: string;
+  id?: string;
 }
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<IStoreApiResponse | IStore[] | IStore>,
+  res: NextApiResponse<IStoreApiResponse | IStore[] | IStore | null>,
 ) {
-  const { page = "", limit = "", q, district }: ResponseType = req.query;
+  const { page = "", limit = "", q, district, id }: ResponseType = req.query;
   // const prisma = new PrismaClient();
 
   // POST 맛집 등록
@@ -58,6 +59,16 @@ export default async function handler(
       data: { ...formData, lat: data.documents[0].y, lng: data.documents[0].x },
     });
     return res.status(200).json(result);
+  }
+  // DELETE 맛집 삭제
+  else if (req.method === "DELETE") {
+    if (id) {
+      const result = await prisma.store.delete({
+        where: { id: parseInt(id) },
+      });
+      return res.status(200).json(result);
+    }
+    return res.status(500).json(null);
   } else {
     // GET
     if (page) {
