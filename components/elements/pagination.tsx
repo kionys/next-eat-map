@@ -3,18 +3,16 @@ import Link from "next/link";
 interface IPropsPagination {
   total: number;
   page: string;
+  pathname: string;
 }
 
-export const Pagination = ({ total, page }: IPropsPagination) => {
+export const Pagination = ({ total, page, pathname }: IPropsPagination) => {
   return (
     <div className="py-6 w-full px-10 flex justify-center gap-4 bg-white my-10 flex-wrap">
       {total <= 10 ? (
         [...Array(total)].map((_, i) => {
           return (
-            <Link
-              key={i}
-              href={{ pathname: "/stores", query: { page: i + 1 } }}
-            >
+            <Link key={i} href={{ pathname: pathname, query: { page: i + 1 } }}>
               <span
                 className={`px-3 py-2 rounded border shadow-sm bg-white ${
                   i + 1 === parseInt(page, 10)
@@ -32,7 +30,7 @@ export const Pagination = ({ total, page }: IPropsPagination) => {
           {parseInt(page) > 1 && (
             <Link
               href={{
-                pathname: "/stores",
+                pathname: pathname,
                 query: { page: parseInt(page) - 1 },
               }}
             >
@@ -41,7 +39,7 @@ export const Pagination = ({ total, page }: IPropsPagination) => {
               </span>
             </Link>
           )}
-          <Link href={{ pathname: "/stores", query: { page: parseInt(page) } }}>
+          <Link href={{ pathname: pathname, query: { page: parseInt(page) } }}>
             <span
               className={`px-3 py-2 rounded border shadow-sm text-blue-600`}
             >
@@ -51,7 +49,7 @@ export const Pagination = ({ total, page }: IPropsPagination) => {
           {total > parseInt(page) && (
             <Link
               href={{
-                pathname: "/stores",
+                pathname: pathname,
                 query: { page: parseInt(page) + 1 },
               }}
             >
