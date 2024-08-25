@@ -3,6 +3,8 @@ import { KakaoMap } from "@components/templates/kakao-map";
 import { KakaoMarker } from "@components/templates/kakao-marker";
 import { IStore } from "@core/interfaces/store";
 import axios from "axios";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
@@ -13,6 +15,7 @@ import { useQuery } from "react-query";
 const StoreDetailPage = () => {
   const router = useRouter();
   const { id } = router.query;
+  const { status } = useSession();
 
   const fetchStore = async () => {
     const { data } = await axios(`/api/stores?id=${id}`);
@@ -32,13 +35,31 @@ const StoreDetailPage = () => {
   return !isFetching && !isError ? (
     <>
       <div className="max-w-5xl mx-auto px-4 py-8">
-        <div className="px-4 sm:px-0">
-          <h3 className="text-base font-semibold leading-7 text-gray-900">
-            {store?.name}
-          </h3>
-          <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-            {store?.address}
-          </p>
+        <div className="md:flex justify-between items-center py-4 md:py-0">
+          <div className="px-4 sm:px-0">
+            <h3 className="text-base font-semibold leading-7 text-gray-900">
+              {store?.name}
+            </h3>
+            <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
+              {store?.address}
+            </p>
+          </div>
+          {status === "authenticated" && store && (
+            <div className="flex items-center gap-4 px-4 py-3">
+              <Link
+                className="underline hover:text-gray-400 text-sm"
+                href={`/stores/${store?.id}/edit`}
+              >
+                수정
+              </Link>
+              <button
+                type="button"
+                className="underline hover:text-gray-400 text-sm"
+              >
+                삭제
+              </button>
+            </div>
+          )}
         </div>
         <div className="mt-6 border-t border-gray-100">
           <dl className="divide-y divide-gray-100">

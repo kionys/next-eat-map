@@ -17,7 +17,7 @@ export default async function handler(
   const { page = "", limit = "", q, district }: ResponseType = req.query;
   // const prisma = new PrismaClient();
 
-  // POST
+  // POST 맛집 등록
   if (req.method === "POST") {
     // const data = req.body;
     const formData = req.body;
@@ -35,6 +35,26 @@ export default async function handler(
 
     const result = await prisma.store.create({
       // data: { ...data },
+      data: { ...formData, lat: data.documents[0].y, lng: data.documents[0].x },
+    });
+    return res.status(200).json(result);
+
+    // PUT 맛집 수정
+  } else if (req.method === "PUT") {
+    const formData = req.body;
+    const headers = {
+      Authorization: `KakaoAK ${process.env.KAKAO_CLIENT_ID}`,
+    };
+
+    // https://developers.kakao.com/docs/latest/ko/local/dev-guide
+    const { data }: any = await axios.get(
+      `https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURI(
+        formData.address,
+      )}`,
+      { headers },
+    );
+    const result = await prisma.store.update({
+      where: { id: formData.id },
       data: { ...formData, lat: data.documents[0].y, lng: data.documents[0].x },
     });
     return res.status(200).json(result);
