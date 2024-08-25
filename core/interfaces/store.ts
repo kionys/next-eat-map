@@ -14,6 +14,12 @@ export interface ILike {
   id: number;
   storeId: number;
   userId: number;
+  store?: IStore;
+}
+export interface ILikeApiResponse {
+  data: ILike[];
+  totalPage?: number;
+  page?: number;
 }
 export interface IStoreApiResponse {
   data: IStore[];

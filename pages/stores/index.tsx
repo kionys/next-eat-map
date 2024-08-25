@@ -1,11 +1,11 @@
 import { Loader } from "@components/elements/loader";
 import { Loading } from "@components/elements/loading";
 import { SearchFilter } from "@components/templates/search-filter";
+import { StoreList } from "@components/templates/store-list";
 import { useIntersectionObserver } from "@core/hook/useIntersectionObserver";
 import { IStore } from "@core/interfaces/store";
 import { searchState } from "atom";
 import axios from "axios";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { Fragment, useCallback, useEffect, useRef } from "react";
 import { useInfiniteQuery } from "react-query";
@@ -76,48 +76,11 @@ const StoreListPage = () => {
       <SearchFilter />
       <ul role="list" className="divide-y divide-gray-100">
         {!isLoading && !isError ? (
-          stores?.pages?.map((page: any, i: number) => {
+          stores?.pages?.map((page, i) => {
             return (
               <Fragment key={i}>
                 {page.data.map((store: IStore, j: number) => {
-                  return (
-                    <li
-                      key={j}
-                      className="flex justify-between gap-x-6 py-5 cursor-pointer hover:bg-gray-50"
-                      onClick={() => router.push(`/stores/${store.id}`)}
-                    >
-                      <div className="flex gap-x-4">
-                        <Image
-                          src={
-                            store?.category
-                              ? `/images/markers/${store?.category}.png`
-                              : "/images/markers/default.png"
-                          }
-                          width={48}
-                          height={48}
-                          alt="아이콘 이미지"
-                        />
-                        <div className="">
-                          <div className="text-sm font-semibold leading-6 text-gray-900">
-                            {store?.name}
-                          </div>
-                          <div className="mt-1 text-xs font-semibold truncate leading-5 text-gray-500">
-                            {store?.name}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="hidden sm:flex sm:flex-col sm:items-end">
-                        <div className="text-sm font-semibold leading-6 text-gray-900">
-                          {store?.address}
-                        </div>
-                        <div className="mt-1 text-xs font-semibold truncate leading-5 text-gray-500">
-                          {store?.phone || "번호 없음"} |{" "}
-                          {store?.foodCertifyName || "식품인증구분 없음"} |{" "}
-                          {store?.category || "업태정보 없음"}
-                        </div>
-                      </div>
-                    </li>
-                  );
+                  return <StoreList key={j} store={store} i={j} />;
                 })}
               </Fragment>
             );
@@ -130,9 +93,6 @@ const StoreListPage = () => {
           </div>
         ) : null}
       </ul>
-      {/* <button type="button" onClick={() => fetchNextPage()}>
-        next page
-      </button> */}
       {(isFetching || hasNextPage || isFetchingNextPage) && <Loader />}
       <div className="w-full touch-none h-10 mb-10" ref={ref} />
     </div>
