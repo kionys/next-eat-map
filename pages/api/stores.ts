@@ -1,4 +1,5 @@
 import { IStore, IStoreApiResponse } from "@core/interfaces/store";
+import axios from "axios";
 // import { PrismaClient } from "@prisma/client";
 import prisma from "db";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -18,9 +19,23 @@ export default async function handler(
 
   // POST
   if (req.method === "POST") {
-    const data = req.body;
+    // const data = req.body;
+    const formData = req.body;
+    const headers = {
+      Authorization: `KakaoAK ${process.env.KAKAO_CLIENT_ID}`,
+    };
+
+    // https://developers.kakao.com/docs/latest/ko/local/dev-guide
+    const { data }: any = await axios.get(
+      `https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURI(
+        formData.address,
+      )}`,
+      { headers },
+    );
+
     const result = await prisma.store.create({
-      data: { ...data },
+      // data: { ...data },
+      data: { ...formData, lat: data.documents[0].y, lng: data.documents[0].x },
     });
     return res.status(200).json(result);
   } else {

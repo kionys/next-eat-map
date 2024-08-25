@@ -1,37 +1,60 @@
 import { signOut, useSession } from "next-auth/react";
-import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BiMenu } from "react-icons/bi";
 
 export const NavBar = () => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const { data, status } = useSession();
+
+  const onClickLink = (e: React.MouseEvent<HTMLDivElement>) => {
+    const link = e.currentTarget.id;
+    link && router.push(link);
+    setIsOpen(false);
+  };
   return (
     <>
       <div className="navbar">
-        <Link href="/" className="navbar__logo">
+        <div id="/" className="navbar__logo" onClick={onClickLink}>
           eatmap
-        </Link>
+        </div>
         <div className="navbar__list">
-          <Link href="/stores" className="navbar__list--item">
+          <div
+            id="/stores"
+            className="navbar__list--item"
+            onClick={onClickLink}
+          >
             맛집 목록
-          </Link>
-          <Link href="/stores/new" className="navbar__list--item">
+          </div>
+          <div
+            id="/stores/new"
+            className="navbar__list--item"
+            onClick={onClickLink}
+          >
             맛집 등록
-          </Link>
-          <Link href="/users/likes" className="navbar__list--item">
+          </div>
+          <div
+            id="/users/likes"
+            className="navbar__list--item"
+            onClick={onClickLink}
+          >
             찜한 가게
-          </Link>
+          </div>
 
           {status === "authenticated" ? (
             <button type="button" onClick={() => signOut()}>
               로그아웃
             </button>
           ) : (
-            <Link href="/api/auth/signin" className="navbar__list--item">
+            <div
+              id="/api/auth/signin"
+              className="navbar__list--item"
+              onClick={onClickLink}
+            >
               로그인
-            </Link>
+            </div>
           )}
         </div>
         <div
@@ -46,26 +69,42 @@ export const NavBar = () => {
       {isOpen && (
         <div className="navbar--mobile">
           <div className="navbar__list--mobile">
-            <Link href="/stores" className="navbar__list--item">
+            <div
+              id="/stores"
+              className="navbar__list--item"
+              onClick={onClickLink}
+            >
               맛집 목록
-            </Link>
-            <Link href="/stores/new" className="navbar__list--item">
+            </div>
+            <div
+              id="/stores/new"
+              className="navbar__list--item"
+              onClick={onClickLink}
+            >
               맛집 등록
-            </Link>
-            <Link href="/users/likes" className="navbar__list--item">
+            </div>
+            <div
+              id="/users/likes"
+              className="navbar__list--item"
+              onClick={onClickLink}
+            >
               찜한 가게
-            </Link>
-            {/* <Link href="/api/auth/signin" className="navbar__list--item">
+            </div>
+            {/* <div id="/api/auth/signin" className="navbar__list--item">
               로그인
-            </Link> */}
+            </div> */}
             {status === "authenticated" ? (
               <button type="button" onClick={() => signOut()}>
                 로그아웃
               </button>
             ) : (
-              <Link href="/api/auth/signin" className="navbar__list--item">
+              <div
+                id="/api/auth/signin"
+                className="navbar__list--item"
+                onClick={onClickLink}
+              >
                 로그인
-              </Link>
+              </div>
             )}
           </div>
         </div>
