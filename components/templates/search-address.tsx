@@ -41,7 +41,7 @@ export const SearchAddress = ({
           htmlFor="address"
           className="block text-sm font-medium leading-6 text-gray-900"
         >
-          주소
+          주소 <span className="text-red-500">*</span>
         </label>
         <div className="mt-2">
           <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
