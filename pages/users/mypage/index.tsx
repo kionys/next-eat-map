@@ -1,4 +1,11 @@
+import { Pagination } from "@components/elements/pagination";
+import { CommentList } from "@components/templates/comments/comment-list";
+import { ICommentApiResponse } from "@core/interfaces/store";
+import axios from "axios";
 import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { useQuery } from "react-query";
 
 /**
  * 마이페이지
@@ -6,6 +13,23 @@ import { signOut, useSession } from "next-auth/react";
  */
 const MyPage = () => {
   const { data: session } = useSession();
+  const router = useRouter();
+  const { page = "1" }: any = router.query;
+
+  const fetchComments = async () => {
+    const { data } = await axios({
+      method: "GET",
+      url: `/api/comments?limit=10&page=${page}&user=${true}`,
+    });
+    return data as ICommentApiResponse;
+  };
+
+  const { data: comments, refetch } = useQuery(
+    `comments-${page}`,
+    fetchComments,
+  );
+
+  useEffect(() => {}, []);
   return (
     <div className="md:max-w-5xl mx-auto px-4 py-8">
       <div className="px-4 sm:px-0">
@@ -64,6 +88,21 @@ const MyPage = () => {
           </div>
         </dl>
       </div>
+      <div className="mt-8 px-4 sm:px-0">
+        <h3 className="text-base font-semibold leading-7 text-gray-900">
+          내가 쓴 댓글
+        </h3>
+        <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
+          댓글 리스트
+        </p>
+      </div>
+      <CommentList comments={comments} displayStore={true} />
+
+      <Pagination
+        total={comments?.totalPage}
+        page={page}
+        pathname={`/users/mypage`}
+      />
     </div>
   );
 };
