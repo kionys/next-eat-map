@@ -1,3 +1,4 @@
+import { CurrentLocationButton } from "@components/elements/current-location-button";
 import { IStore } from "@core/interfaces/store";
 import axios from "axios";
 import { KakaoMap } from "components/templates/kakao-map";
@@ -11,6 +12,7 @@ const Home = ({ stores }: { stores: IStore[] }) => {
       <KakaoMap />
       <KakaoMarkers stores={stores} />
       <StoreBox />
+      <CurrentLocationButton />
     </>
   );
 };
