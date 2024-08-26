@@ -21,6 +21,28 @@ export interface ILikeApiResponse {
   totalPage?: number;
   page?: number;
 }
+export interface IUser {
+  id: number;
+  email?: string | null;
+  name?: string | null;
+  image?: string | null;
+}
+
+export interface IComment {
+  id: number;
+  storeId: number;
+  userId: number;
+  store?: IStore;
+  body?: string | null;
+  user?: IUser;
+  createdAt: string | Date;
+}
+
+export interface ICommentApiResponse {
+  data: IComment[];
+  totalPage?: number;
+  page?: number;
+}
 export interface IStoreApiResponse {
   data: IStore[];
   totalPage?: number;
