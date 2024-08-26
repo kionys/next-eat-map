@@ -1,13 +1,17 @@
 import { ICommentApiResponse } from "@core/interfaces/store";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 
 interface IPropsCommentList {
   comments?: ICommentApiResponse;
+  displayStore?: boolean;
 }
-export const CommentList = ({ comments }: IPropsCommentList) => {
+export const CommentList = ({ comments, displayStore }: IPropsCommentList) => {
   const { data: session } = useSession();
+  const router = useRouter();
 
   // 댓글 삭제
   const onClickDeleteComment = async (id: number) => {
@@ -16,10 +20,7 @@ export const CommentList = ({ comments }: IPropsCommentList) => {
       try {
         const result = await axios({
           method: "DELETE",
-          url: `/api/comments`,
-          data: {
-            id: id,
-          },
+          url: `/api/comments?id=${id}`,
         });
 
         if (result.status === 200) {
@@ -32,6 +33,7 @@ export const CommentList = ({ comments }: IPropsCommentList) => {
       }
     }
   };
+
   return (
     <div className="my-10">
       {comments?.data && comments.data.length > 0 ? (
@@ -54,6 +56,16 @@ export const CommentList = ({ comments }: IPropsCommentList) => {
                 <div className="">{comment.user?.email ?? "사용자"}</div>
                 <div className="text-xs">{parseDate(comment.createdAt)}</div>
                 <div className="text-black mt-1 text-base">{comment.body}</div>
+                {displayStore && comment.store && (
+                  <div className="mt-2">
+                    <Link
+                      href={`/stores/${comment.store.id}`}
+                      className="text-blue-700 hover:text-blue-600 underline font-medium"
+                    >
+                      {comment.store.name}
+                    </Link>
+                  </div>
+                )}
               </div>
               <div>
                 {comment.userId === session?.user.id && (

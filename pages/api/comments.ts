@@ -9,6 +9,7 @@ interface ResponseType {
   page?: string;
   limit?: string;
   storeId?: string;
+  user?: boolean;
 }
 
 export default async function handler(
@@ -21,7 +22,8 @@ export default async function handler(
     page = "1",
     limit = "10",
     storeId = "",
-  }: ResponseType = req.body;
+    user = false,
+  }: ResponseType = req.query;
 
   if (req.method === "POST") {
     if (!session?.user) {
@@ -59,18 +61,22 @@ export default async function handler(
     const count = await prisma.comment.count({
       where: {
         storeId: storeId ? parseInt(storeId) : {},
+        userId: user ? session?.user.id : {},
       },
     });
 
+    console.log(parseInt(page), parseInt(limit));
     const comments = await prisma.comment.findMany({
       orderBy: { createdAt: "desc" },
       where: {
         storeId: storeId ? parseInt(storeId) : {},
+        userId: user ? session?.user.id : {},
       },
       skip: skipPage * parseInt(limit),
       take: parseInt(limit),
       include: {
         user: true,
+        store: true,
       },
     });
 
