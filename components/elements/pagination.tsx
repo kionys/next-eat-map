@@ -1,14 +1,14 @@
 import Link from "next/link";
 
 interface IPropsPagination {
-  total: number;
+  total?: number;
   page: string;
   pathname: string;
 }
 
-export const Pagination = ({ total, page, pathname }: IPropsPagination) => {
+export const Pagination = ({ total = 0, page, pathname }: IPropsPagination) => {
   return (
-    <div className="py-6 w-full px-10 flex justify-center gap-4 bg-white my-10 flex-wrap">
+    <div className="py-6 w-full px-10 flex justify-center gap-3 bg-white my-10 flex-wrap text-black">
       {total <= 10 ? (
         [...Array(total)].map((_, i) => {
           return (
