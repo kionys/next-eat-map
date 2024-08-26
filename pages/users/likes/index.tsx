@@ -51,13 +51,12 @@ const LikesPage = () => {
           </div>
         ) : null}
       </ul>
-      {likes?.totalPage && likes?.totalPage > 0 ? (
-        <Pagination
-          pathname="/users/likes"
-          total={likes?.totalPage}
-          page={page}
-        />
-      ) : null}
+
+      <Pagination
+        pathname="/users/likes"
+        total={likes?.totalPage}
+        page={page}
+      />
     </div>
   );
 };
