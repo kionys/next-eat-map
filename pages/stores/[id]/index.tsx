@@ -1,4 +1,5 @@
 import { Loader } from "@components/elements/loader";
+import { Comments } from "@components/templates/comments";
 import { KakaoMap } from "@components/templates/kakao-map";
 import { KakaoMarker } from "@components/templates/kakao-marker";
 import { Like } from "@components/templates/like";
@@ -147,10 +148,13 @@ const StoreDetailPage = () => {
         </div>
       </div>
       {isSuccess && (
-        <div className="overflow-hidden w-full mb-20 max-w-5xl mx-auto max-h-[900px]">
-          <KakaoMap lat={store?.lat} lng={store?.lng} zoom={1} />
-          <KakaoMarker store={store} />
-        </div>
+        <>
+          <div className="flex items-center justify-center overflow-hidden w-full mb-20 max-w-5xl mx-auto max-h-[400px]">
+            <KakaoMap lat={store?.lat} lng={store?.lng} zoom={5} />
+            <KakaoMarker store={store} />
+          </div>
+          <Comments storeId={store?.id} />
+        </>
       )}
     </>
   ) : isFetching ? (
