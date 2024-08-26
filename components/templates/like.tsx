@@ -10,7 +10,7 @@ interface IPropsLike {
 }
 
 export const Like = ({ storeId }: IPropsLike) => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   const fetchStore = async () => {
     const { data } = await axios(`/api/stores?id=${storeId}`);
@@ -28,6 +28,10 @@ export const Like = ({ storeId }: IPropsLike) => {
 
   // 찜하기 토글
   const onClickToggleLike = async () => {
+    if (status === "unauthenticated") {
+      toast.warn("로그인 후 이용해주세요.");
+      return;
+    }
     if (session?.user && store) {
       try {
         const like = await axios({
@@ -51,7 +55,7 @@ export const Like = ({ storeId }: IPropsLike) => {
   return (
     <button type="button" onClick={onClickToggleLike} className="outline-none">
       {/* 로그인된 사용자가 좋아요를 눌렀을 때 */}
-      {store?.likes?.length ? (
+      {status === "authenticated" && store?.likes?.length ? (
         <AiFillHeart className="hover:text-red-600 focus:text-red-600 text-red-500" />
       ) : (
         <AiOutlineHeart className="hover:text-red-600 focus:text-red-600" />
